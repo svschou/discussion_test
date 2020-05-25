@@ -1,0 +1,10 @@
+{% extends "threads/base_bootstrap.html" %}
+{% block content %}
+{% if r_list %}
+	{% for r in r_list %}
+		<p><a href="{% url 'threads:reaction_detail' r.id %}">{{ r.text }}</a> by {{ r.owner }}</p>
+	{% endfor %}
+
+	<a href="{% url 'threads:reaction_create' %}">Create New Reaction</a>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends "threads/base_bootstrap.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+<p>
+	{{ react.owner }} : {{ react}}
+	{% for r in resps %}
+		<p>&nbsp;&nbsp;&nbsp;&nbsp;{{ r.owner }} : {{ r.text }} </p>
+	{% endfor %}
+	<form method="post" action="{% url 'threads:reaction_resp_create' react.id %}">
+	{% csrf_token %}
+    {{ resp_form|crispy }}
+	<input type="submit" value="Submit">
+	</form>
+</p>
+
+<p><a href="{% url 'threads:reactions' %}">back to all reactions</a>
+</p>
+{% endblock %}
