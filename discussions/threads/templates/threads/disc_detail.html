@@ -1,0 +1,31 @@
+{% extends "threads/base_bootstrap.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+	<p><a href="{% url 'threads:all_posts' %}">back to all posts</a>
+	<div class="panel panel-default">
+		<div class="panel-body">
+			<h2 style="color:lightcoral">{{ disc.topic }}</h2></div></div>
+	<div class="panel panel-default">
+		<div class="panel-body">
+			{{ disc.owner }} : {{ disc.text }}
+		</div>
+	</div>
+	{% for r in replies %}
+		<div class="panel panel-default">
+			<div class="panel-body">
+			{{ r.owner }} : {{ r.text }}
+			</div>
+		</div>
+	{% endfor %}
+	
+	<form method="post" action="{% url 'threads:discussion_reply_create' disc.id %}">
+		{% csrf_token %}
+    	{{ reply_form|crispy }}
+		<p><input type="submit" value="Reply"></p>
+	</form>
+
+
+<p><a href="{% url 'threads:all_posts' %}">back to all posts</a>
+</p>
+{% endblock %}

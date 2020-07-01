@@ -1,0 +1,43 @@
+{% extends "threads/base_menu.html" %}
+{% block content %}
+<div class="panel panel-default">
+<table class="table">
+	<tr>
+		<th>Topic</th>
+		<th>Type</th>
+		<th>Author</th>
+		<th>Created</th>
+	</tr>
+
+{% if all_posts %}
+	{% for p in all_posts %}
+		{% if p.type == 'reaction' %}
+		<tr>
+			<td><a href="{% url 'threads:reaction_detail' p.id %}" style="color:{{ p.color }}">{{ p.topic }}</a></td>
+			<td><span class='glyphicon glyphicon-share-alt' style='color:lightseagreen'></span></td>
+			<td>{{ p.owner }}</td>
+			<td>{{ p.created_at }}</td>
+		</tr>
+
+		{% elif p.type == 'brainstorm' %}
+		<tr>
+			<td><a href="{% url 'threads:brainstorm_detail' p.id %}" style="color:{{ p.color }}">{{ p.topic }}</a></td>
+			<td><span class='glyphicon glyphicon-check' style='color:mediumpurple'></span></td>
+			<td>{{ p.owner }}</td>
+			<td>{{ p.created_at }}</td>
+		</tr>
+
+		{% else %}
+		<tr>
+			<td><a href="{% url 'threads:discussion_detail' p.id %}" style="color:{{ p.color }}">{{ p.topic }}</a></td>
+			<td><span class='glyphicon glyphicon-comment' style='color:lightcoral'></span></td>
+			<td>{{ p.owner }}</td>
+			<td>{{ p.created_at }}</td>
+		</tr>
+		{% endif %}
+	{% endfor %}
+{% endif %}
+</table>
+</div>
+<a href="{% url 'threads:new_post' %}">Create New Post</a>
+{% endblock %}

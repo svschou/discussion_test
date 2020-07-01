@@ -1,0 +1,9 @@
+{% extends "threads/base_bootstrap.html" %}
+{% block content %}
+{% if d_list %}
+	{% for d in d_list %}
+		<p><a href="{% url 'threads:discussion_detail' d.id %}" style="color:lightcoral">{{ d.topic }}</a> by {{ d.owner }}</p>
+	{% endfor %}
+{% endif %}
+<a href="{% url 'threads:discussion_create' %}">Create New Discussion</a>
+{% endblock %}

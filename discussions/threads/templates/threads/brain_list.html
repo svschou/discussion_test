@@ -1,0 +1,9 @@
+{% extends "threads/base_bootstrap.html" %}
+{% block content %}
+{% if b_list %}
+	{% for b in b_list %}
+		<p><a href="{% url 'threads:brainstorm_detail' b.id %}" style="color:mediumpurple">{{ b.text }}</a> by {{ b.owner }}</p>
+	{% endfor %}
+{% endif %}
+<a href="{% url 'threads:brainstorm_create' %}">Create New Brainstorm</a>
+{% endblock %}

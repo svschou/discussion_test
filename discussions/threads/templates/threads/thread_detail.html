@@ -1,18 +1,38 @@
 {% extends "threads/base_bootstrap.html" %}
 {% load crispy_forms_tags %}
 {% block content %}
-<p>
-	{{ react.owner }} : {{ react}}
+
+<style>
+	.panel-body{
+		color:lightseagreen;
+	}
+</style>
+
+	<p><a href="{% url 'threads:all_posts' %}">back to all posts</a></p>
+	<div class="panel panel-default">
+		<div class="panel-body">
+			<h2>{{ react.topic }}</h2>
+			<h3>{{ react.owner }} : {{ react.text}}</h3>
+		</div>
+	</div>
 	{% for r in resps %}
+	<div class="panel panel-default">
+		<div class="panel-body">
 		<p>&nbsp;&nbsp;&nbsp;&nbsp;{{ r.owner }} : {{ r.text }} </p>
+		</div>
+	</div>
 	{% endfor %}
+	<div class="panel panel-default">
+		<div class="panel-body">
 	<form method="post" action="{% url 'threads:reaction_resp_create' react.id %}">
 	{% csrf_token %}
     {{ resp_form|crispy }}
-	<input type="submit" value="Submit">
+	<p><input type="submit" value="Submit"></p>
 	</form>
-</p>
+		</div>
+	</div>
 
-<p><a href="{% url 'threads:reactions' %}">back to all reactions</a>
+
+<p><a href="{% url 'threads:all_posts' %}">back to all posts</a>
 </p>
 {% endblock %}

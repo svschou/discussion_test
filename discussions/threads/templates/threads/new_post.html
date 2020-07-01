@@ -1,0 +1,37 @@
+{% extends "threads/base_menu.html" %}
+{% block content %}
+<p><a href="{% url 'threads:all_posts' %}">back to all posts</a>
+	<h2>Create a new:</h2>
+	<div class="container">
+		<div class='row'>
+			<div class="col-sm-4">
+				<a href="{% url 'threads:reaction_create' %}">
+				<div class="panel panel-default" style="text-align:center">
+					<div class="panel-body" style="color:lightseagreen">
+						<span class="glyphicon glyphicon-share-alt" style="color:lightseagreen"></span>&nbsp;&nbsp;Reaction</div>
+				</div>
+				</a>
+			</div>
+
+
+			<div class="col-sm-4">
+				<a href="{% url 'threads:brainstorm_create' %}">
+				<div class="panel panel-default" style="text-align:center">
+					<div class="panel-body" style="color:mediumpurple">
+						<span class="glyphicon glyphicon-check" style="color:mediumpurple"></span>&nbsp;&nbsp;Brainstorm</div>
+				</div>
+				</a>
+			</div>
+
+
+			<div class="col-sm-4">
+				<a href="{% url 'threads:discussion_create' %}">
+				<div class="panel panel-default" style="text-align:center">
+					<div class="panel-body" style="color:lightcoral">
+						<span class="glyphicon glyphicon-comment" style="color:lightcoral"></span>&nbsp;&nbsp;Discussion</div>
+				</div>
+				</a>
+			</div>
+		</div>
+	</div>
+{% endblock %}

@@ -1,0 +1,85 @@
+{% extends "threads/base_bootstrap.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<style>
+	.panel-body {
+		color:mediumpurple;
+	}
+
+	#comments {
+		color:#c0a6f5;
+	}
+
+	#up-votes {
+		color:white;
+		background-color:lightseagreen;
+	}
+	#down-votes {
+		color:white;
+		background-color:lightcoral;
+	}
+
+	#commentbutton {
+		color:white;
+		background-color:#c0a6f5;
+		border:none;
+		border-radius:4px;
+	}
+</style>
+
+<p><a href="{% url 'threads:all_posts' %}">back to all posts</a>
+</p>
+<div class="panel panel-default">
+	<div class="panel-body">
+		<h2>{{ brain }}</h2>
+		<h3>{{ brain.owner }} : {{ brain.text }}</h3>
+	</div>
+</div>
+
+
+	{% for b in brain.resps %}
+	<div class="panel panel-default">
+		<div class="panel-body">
+		<p>{{ b.owner }} : {{ b.text }}&nbsp;
+		<span class="badge" id='up-votes'>{{ b.up }}</span> <span class="badge" id='down-votes'>{{ b.down }}</span></p>
+		<p>{{ b.created_at }}</p>
+		{% for c in b.r_comments %}
+			<p id='comments'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ c.owner }} : {{ c }}</p>
+		{% endfor %}
+		<button onclick='showCommentForm()'>Add Comment</button>
+		<form method="post" action="{% url 'threads:brainstorm_comment_create' brain.id %}" id='{{ b.id }}' style='display:none'>
+			{% csrf_token %}
+			{{ comment_form|crispy }}
+			<p>&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" value="Submit"></p>
+		</form>
+		</div>
+</div>
+
+	{% endfor %}
+
+<div class="panel panel-default">
+		<div class="panel-body">
+	<p>Respond with a new idea:</p>
+	<form method="post" action="{% url 'threads:brainstorm_resp_create' brain.id %}">
+		{% csrf_token %}
+    	{{ resp_form|crispy }}
+		<p><input type="submit" value="Submit new idea"></p>
+	</form>
+</div>
+</div>
+<p><a href="{% url 'threads:all_posts' %}">back to all posts</a>
+</p>
+
+<script>
+function showCommentForm(formID) {
+	var f = document.getElementById(formID);
+	if (f.style.display === "none") {
+		f.style.display = "block";
+	} 	else {
+		f.style.display = "none";
+	}
+}
+</script>
+{% endblock %}
+
