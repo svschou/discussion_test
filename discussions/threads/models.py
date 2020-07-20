@@ -84,6 +84,8 @@ class Discussion(models.Model):
 	created_at = models.DateTimeField(default=timezone.now)
 
 	replies = models.ManyToManyField(settings.AUTH_USER_MODEL, through='DiscussionReply', related_name='thread_replies')
+	viewed = models.ManyToManyField(settings.AUTH_USER_MODEL, through='ViewedDiscussion', related_name='thread_vieweddiscussions')
+
 
 	def __str__(self):
 		return self.topic
@@ -94,9 +96,19 @@ class DiscussionReply(models.Model):
 	created_at = models.DateTimeField(default=timezone.now)
 
 	discussion = models.ForeignKey(Discussion, on_delete=models.CASCADE)
+	
 
 	def __str__(self):
 		return self.text
+
+class ViewedDiscussion(models.Model):
+	owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+	discussion = models.ForeignKey(Discussion, on_delete=models.CASCADE)
+	last_seen = models.IntegerField(default=0)
+
+
+
+
 
 
 

@@ -1,4 +1,4 @@
-{% extends "threads/base_bootstrap.html" %}
+{% extends "base_bootstrap.html" %}
 {% block navbar %}
 
 <nav class="navbar navbar-default navbar-light">
@@ -17,12 +17,8 @@
         <li>
         <a href="{% url 'threads:new_post' %}">Create New Post</a>
         </li>
-        <li class="dropdown">
-            
-            <ul class="dropdown-menu">
-                <li><a href="{% url 'logout' %}?next={% url 'threads:all_posts' %}">Logout</a></li>
-            </ul>
-        </li>
+        <li><a href=''>{{ user }}</a></li>
+        <li><a href="{% url 'logout' %}?next={% url 'threads:all_posts' %}">Logout</a></li>
         {% else %}
         <li>
         <a href="{% url 'login' %}?next={% url 'threads:all_posts' %}">Login</a>

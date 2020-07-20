@@ -3,7 +3,7 @@ from . import views
 
 app_name='threads'
 urlpatterns = [
-	path('posts',
+	path('',
 		views.PostsView.as_view(), name='all_posts'),
 	path('posts/new',
 		views.PostCreate.as_view(), name='new_post'),
@@ -21,6 +21,10 @@ urlpatterns = [
 		views.BrainListView.as_view(), name='brainstorms'),
 	path('brainstorm/<int:pk>',
 		views.BrainDetailView.as_view(), name='brainstorm_detail'),
+
+	path('brainstorm/<int:pk>/addupvote', 
+		views.AddUpvoteView.as_view(), name='brainstorm_add_upvote'),
+
 	path('brainstorm/create',
 		views.BrainCreateView.as_view(), name='brainstorm_create'),
 	path('brainstorm/<int:pk>/resp',

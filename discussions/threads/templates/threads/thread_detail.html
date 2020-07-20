@@ -1,4 +1,4 @@
-{% extends "threads/base_bootstrap.html" %}
+{% extends "base_menu.html" %}
 {% load crispy_forms_tags %}
 {% block content %}
 
@@ -8,20 +8,23 @@
 	}
 </style>
 
-	<p><a href="{% url 'threads:all_posts' %}">back to all posts</a></p>
 	<div class="panel panel-default">
 		<div class="panel-body">
 			<h2>{{ react.topic }}</h2>
 			<h3>{{ react.owner }} : {{ react.text}}</h3>
+			<p>{{ r.created_at }}</p>
 		</div>
 	</div>
+	{% if posted_yet == 1 %}
 	{% for r in resps %}
 	<div class="panel panel-default">
 		<div class="panel-body">
-		<p>&nbsp;&nbsp;&nbsp;&nbsp;{{ r.owner }} : {{ r.text }} </p>
+		<p>{{ r.owner }} : {{ r.text }} </p>
+		<p>{{ r.created_at }}</p>
 		</div>
 	</div>
 	{% endfor %}
+	{% endif %}
 	<div class="panel panel-default">
 		<div class="panel-body">
 	<form method="post" action="{% url 'threads:reaction_resp_create' react.id %}">
@@ -32,7 +35,4 @@
 		</div>
 	</div>
 
-
-<p><a href="{% url 'threads:all_posts' %}">back to all posts</a>
-</p>
 {% endblock %}

@@ -1,4 +1,4 @@
-{% extends "threads/base_bootstrap.html" %}
+{% extends "base_menu.html" %}
 {% load crispy_forms_tags %}
 {% block content %}
 
@@ -11,13 +11,24 @@
 		color:#c0a6f5;
 	}
 
+	.up {
+		background-color:white;
+		border-color: lightseagreen;
+	}
 	#up-votes {
-		color:white;
-		background-color:lightseagreen;
+		color:lightseagreen;
+	}
+
+	.down {
+		background-color:white;
+		border-color: lightcoral;
 	}
 	#down-votes {
-		color:white;
-		background-color:lightcoral;
+		color:lightcoral;
+	}
+
+	#vote-label {
+		font-family:"Helvetica Neue";
 	}
 
 	#commentbutton {
@@ -28,35 +39,49 @@
 	}
 </style>
 
-<p><a href="{% url 'threads:all_posts' %}">back to all posts</a>
-</p>
 <div class="panel panel-default">
 	<div class="panel-body">
 		<h2>{{ brain }}</h2>
 		<h3>{{ brain.owner }} : {{ brain.text }}</h3>
+		<p>{{ brain.created_at }}</p>
+		<div class="btn-group" data-toggle="buttons">
+			<label class="btn btn-secondary active">
+		    <input type="radio" name="options" id="mostvotes" autocomplete="off" checked> Most Votes
+		  </label>
+		  <label class="btn btn-secondary">
+		    <input type="radio" name="options" id="leastvotes" autocomplete="off" onclick="showLeastVotes()"> Least Votes
+		  </label>
+		  <label class="btn btn-secondary">
+		    <input type="radio" name="options" id="newest" autocomplete="off"> Newest
+		  </label>
+		  <label class="btn btn-secondary">
+		    <input type="radio" name="options" id="oldest" autocomplete="off"> Oldest
+		  </label>
+		</div>
 	</div>
 </div>
 
-
 	{% for b in brain.resps %}
-	<div class="panel panel-default">
+	<div class="panel panel-default" id="mostvotes-list">
 		<div class="panel-body">
-		<p>{{ b.owner }} : {{ b.text }}&nbsp;
-		<span class="badge" id='up-votes'>{{ b.up }}</span> <span class="badge" id='down-votes'>{{ b.down }}</span></p>
+		<p>{{ b.owner }} : {{ b.text }} (id: {{ b.id }})&nbsp;
+		<button type="submit" formmethod="post" class="btn btn-sm up"><a href="{% url 'threads:brainstorm_add_upvote' brain.id %}"><span class="glyphicon glyphicon-thumbs-up" id='up-votes'> <span id='vote-label'>{{ b.up }}</span></span></a></button>
+
+		<button class="btn btn-sm down"><span class="glyphicon glyphicon-thumbs-down" id='down-votes'> <span id='vote-label'>{{ b.down }}</span></span></button></p>
 		<p>{{ b.created_at }}</p>
 		{% for c in b.r_comments %}
 			<p id='comments'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ c.owner }} : {{ c }}</p>
 		{% endfor %}
-		<button onclick='showCommentForm()'>Add Comment</button>
-		<form method="post" action="{% url 'threads:brainstorm_comment_create' brain.id %}" id='{{ b.id }}' style='display:none'>
+		<button onclick="showCommentForm('{{ b.id }}')">Add Comment</button>
+		<form method="post" action="{% url 'threads:brainstorm_comment_create' b.id %}" id='{{ b.id }}' style='display:none'>
 			{% csrf_token %}
 			{{ comment_form|crispy }}
 			<p>&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" value="Submit"></p>
 		</form>
 		</div>
-</div>
-
+	</div>
 	{% endfor %}
+
 
 <div class="panel panel-default">
 		<div class="panel-body">
@@ -68,8 +93,7 @@
 	</form>
 </div>
 </div>
-<p><a href="{% url 'threads:all_posts' %}">back to all posts</a>
-</p>
+
 
 <script>
 function showCommentForm(formID) {
@@ -79,6 +103,14 @@ function showCommentForm(formID) {
 	} 	else {
 		f.style.display = "none";
 	}
+}
+
+function showLeastVotes() {
+	console.log("is anything working")
+	var lvl = document.getElementByID('leastvotes-list');
+	lvl.style.display = "block";
+	var mvl = document.getElementByID('mostvotes-list');
+	mvl.style.display = "none";
 }
 </script>
 {% endblock %}
